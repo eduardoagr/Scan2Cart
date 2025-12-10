@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<syncfusion:SfPopup
+    x:Class="Scan2Cart.Views.PopUps.ProductPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Scan2Cart.Controls"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    xmlns:vm="clr-namespace:Scan2Cart.ViewModels"
+    x:Name="ProdPage"
+    Padding="20"
+    x:DataType="vm:HomePageViewModel"
+    AutoSizeMode="Both"
+    ShowFooter="False"
+    ShowHeader="False"
+    StaysOpen="True">
+
+    <syncfusion:SfPopup.ContentTemplate>
+        <DataTemplate x:DataType="vm:HomePageViewModel">
+            <Border>
+                <VerticalStackLayout
+                    Padding="5"
+                    BackgroundColor="{AppThemeBinding Dark={x:StaticResource Black},
+                                                      Light={x:StaticResource White}}"
+                    Spacing="5">
+
+                    <Label
+                        FontSize="Large"
+                        HorizontalTextAlignment="Center"
+                        Text="Do you want this" />
+
+                    <controls:SmartImage
+                        x:Name="ProductImage"
+                        Aspect="AspectFill"
+                        DynamicSource="{x:Binding Product.ImageUrl}"
+                        HeightRequest="200"
+                        IsImageLoaded="{x:Binding _IsProductInfoVisible}"
+                        Placeholder="placeholder.png"
+                        WidthRequest="200" />
+
+                    <Label IsVisible="{x:Binding _IsProductInfoVisible}" Text="{x:Binding Product.Name, StringFormat='Name: {0}'}" />
+                    <Label IsVisible="{x:Binding _IsProductInfoVisible}" Text="{x:Binding Product.Price, StringFormat='Price: ${0}'}" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button
+                            Command="{x:Binding NoCommand}"
+                            HeightRequest="25"
+                            Text="No" />
+                        <Button
+                            Grid.Column="1"
+                            Command="{x:Binding YesCommand}"
+                            HeightRequest="25"
+                            Text="Yes" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </DataTemplate>
+    </syncfusion:SfPopup.ContentTemplate>
+
+    <syncfusion:SfPopup.PopupStyle>
+        <syncfusion:PopupStyle CornerRadius="0" HasShadow="True" />
+    </syncfusion:SfPopup.PopupStyle>
+</syncfusion:SfPopup>

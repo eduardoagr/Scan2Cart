@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Scan2Cart.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:badge="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:controls="clr-namespace:Scan2Cart.Controls"
+    xmlns:fi="clr-namespace:Scan2Cart.Constants"
+    xmlns:model="clr-namespace:Scan2Cart.Models"
+    xmlns:pop="clr-namespace:Scan2Cart.Views.PopUps"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:Scan2Cart.Views"
+    xmlns:vm="clr-namespace:Scan2Cart.ViewModels"
+    xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+    x:Name="home"
+    x:DataType="vm:HomePageViewModel">
+
+    <Grid RowDefinitions="*,Auto">
+        <zxing:CameraBarcodeReaderView
+            x:Name="CameraView"
+            BarcodesDetected="CameraView_BarcodesDetected"
+            IsDetecting="{x:Binding ShouldDetect}" />
+
+        <Label
+            Margin="10"
+            FontAttributes="Bold"
+            FontSize="40"
+            HorizontalTextAlignment="End"
+            Text="121$"
+            TextColor="White" />
+
+        <Grid Grid.Row="1">
+            <badge:SfBadgeView
+                BadgeText="{x:Binding Products.Count}"
+                HorizontalOptions="Start"
+                VerticalOptions="Center">
+                <badge:SfBadgeView.Content>
+                    <Label
+                        FontFamily="la"
+                        FontSize="50"
+                        Text="{x:Static fi:IconFont.ShoppingCart}"
+                        VerticalTextAlignment="Center" />
+                </badge:SfBadgeView.Content>
+
+                <badge:SfBadgeView.BadgeSettings>
+                    <badge:BadgeSettings
+                        Background="CornflowerBlue"
+                        BadgeAlignment="End"
+                        Position="TopRight" />
+                </badge:SfBadgeView.BadgeSettings>
+
+            </badge:SfBadgeView>
+
+
+
+            <Button
+                Margin="5"
+                CornerRadius="16"
+                HeightRequest="25"
+                HorizontalOptions="End"
+                Text="Pay"
+                VerticalOptions="Center"
+                WidthRequest="200" />
+        </Grid>
+
+        <pop:ProductPage x:Name="ProductPopupControl" IsOpen="{x:Binding PopUpDetectedOpen}">
+            <pop:ProductPage.Behaviors>
+                <toolkit:EventToCommandBehavior
+                    BindingContext="{Binding Path=BindingContext, Source={x:Reference home}, x:DataType=ContentPage}"
+                    Command="{x:Binding ClosingCommand}"
+                    EventName="Closing" />
+                <toolkit:EventToCommandBehavior
+                    BindingContext="{Binding Path=BindingContext, Source={x:Reference home}, x:DataType=ContentPage}"
+                    Command="{x:Binding OpeningCommand}"
+                    EventName="Opening" />
+            </pop:ProductPage.Behaviors>
+        </pop:ProductPage>
+
+    </Grid>
+</ContentPage>

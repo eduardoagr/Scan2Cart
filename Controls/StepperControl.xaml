@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Scan2Cart.Controls.StepperControl"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Scan2Cart.Controls"
+    xmlns:fi="clr-namespace:Scan2Cart.Constants"
+    x:Name="UpDown"
+    x:DataType="controls:StepperControl">
+
+    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Button
+            Margin="0,4,0,0"
+            BackgroundColor="Transparent"
+            Command="{x:Binding MinusCommand,
+                                Source={x:Reference UpDown}}"
+            FontFamily="la"
+            FontSize="24"
+            Text="{x:Static fi:IconFont.MinusCircle}"
+            TextColor="{x:AppThemeBinding Dark={x:StaticResource White},
+                                          Light={x:StaticResource Black}}"
+            VerticalOptions="Center" />
+        <Label
+            FontSize="30"
+            Text="{x:Binding Value,
+                             Source={x:Reference UpDown}}"
+            VerticalTextAlignment="Center" />
+        <Button
+            Margin="0,4,0,0"
+            BackgroundColor="Transparent"
+            Command="{x:Binding PlusCommand,
+                                Source={x:Reference UpDown}}"
+            FontFamily="la"
+            FontSize="24"
+            Text="{x:Static fi:IconFont.PlusCircle}"
+            TextColor="{x:AppThemeBinding Dark={x:StaticResource White},
+                                          Light={x:StaticResource Black}}"
+            VerticalOptions="Center" />
+    </HorizontalStackLayout>
+</ContentView>
