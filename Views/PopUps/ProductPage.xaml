@@ -6,7 +6,6 @@
     xmlns:controls="clr-namespace:Scan2Cart.Controls"
     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
     xmlns:vm="clr-namespace:Scan2Cart.ViewModels"
-    x:Name="ProdPage"
     Padding="20"
     x:DataType="vm:HomePageViewModel"
     AutoSizeMode="Both"
@@ -33,12 +32,12 @@
                         Aspect="AspectFill"
                         DynamicSource="{x:Binding Product.ImageUrl}"
                         HeightRequest="200"
-                        IsImageLoaded="{x:Binding _IsProductInfoVisible}"
+                        IsImageLoaded="{x:Binding IsProductInfoVisible}"
                         Placeholder="placeholder.png"
                         WidthRequest="200" />
 
-                    <Label IsVisible="{x:Binding _IsProductInfoVisible}" Text="{x:Binding Product.Name, StringFormat='Name: {0}'}" />
-                    <Label IsVisible="{x:Binding _IsProductInfoVisible}" Text="{x:Binding Product.Price, StringFormat='Price: ${0}'}" />
+                    <Label IsVisible="{x:Binding IsProductInfoVisible}" Text="{x:Binding Product.Name, StringFormat='Name: {0}'}" />
+                    <Label IsVisible="{x:Binding IsProductInfoVisible}" Text="{x:Binding Product.Price, StringFormat='Price: ${0}'}" />
 
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
                         <Button

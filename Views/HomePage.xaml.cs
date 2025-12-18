@@ -8,6 +8,8 @@ public partial class HomePage : ContentPage {
 
         ProductPopupControl.BindingContext = pageViewModel;
 
+        CartPopupControl.BindingContext = pageViewModel;
+
         CameraView.Options = new BarcodeReaderOptions {
 
             Formats = BarcodeFormat.QrCode,

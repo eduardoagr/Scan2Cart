@@ -23,7 +23,9 @@ global using Syncfusion.Maui.Popup;
 
 global using System.Collections.ObjectModel;
 global using System.Diagnostics;
+global using System.Globalization;
 global using System.Threading.Tasks;
+global using System.Windows.Input;
 
 global using ZXing.Net.Maui;
 global using ZXing.Net.Maui.Controls;

@@ -27,7 +27,8 @@
             FontAttributes="Bold"
             FontSize="40"
             HorizontalTextAlignment="End"
-            Text="121$"
+            Text="{x:Binding CartTotal,
+                             StringFormat='{}{0:C}'}"
             TextColor="White" />
 
         <Grid Grid.Row="1">
@@ -40,7 +41,11 @@
                         FontFamily="la"
                         FontSize="50"
                         Text="{x:Static fi:IconFont.ShoppingCart}"
-                        VerticalTextAlignment="Center" />
+                        VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{x:Binding ShowCartCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                 </badge:SfBadgeView.Content>
 
                 <badge:SfBadgeView.BadgeSettings>
@@ -52,8 +57,6 @@
 
             </badge:SfBadgeView>
 
-
-
             <Button
                 Margin="5"
                 CornerRadius="16"
@@ -64,18 +67,21 @@
                 WidthRequest="200" />
         </Grid>
 
-        <pop:ProductPage x:Name="ProductPopupControl" IsOpen="{x:Binding PopUpDetectedOpen}">
+        <pop:ProductPage x:Name="ProductPopupControl" IsOpen="{x:Binding IsPopUpDetectedOpen}">
             <pop:ProductPage.Behaviors>
                 <toolkit:EventToCommandBehavior
                     BindingContext="{Binding Path=BindingContext, Source={x:Reference home}, x:DataType=ContentPage}"
-                    Command="{x:Binding ClosingCommand}"
-                    EventName="Closing" />
+                    Command="{x:Binding CloseProductPopopCommand}"
+                    EventName="Closed" />
                 <toolkit:EventToCommandBehavior
                     BindingContext="{Binding Path=BindingContext, Source={x:Reference home}, x:DataType=ContentPage}"
-                    Command="{x:Binding OpeningCommand}"
-                    EventName="Opening" />
+                    Command="{x:Binding OpenProductPopopCommand}"
+                    EventName="Opened" />
+                <toolkit:EventToCommandBehavior />
             </pop:ProductPage.Behaviors>
         </pop:ProductPage>
+
+        <pop:CartPage x:Name="CartPopupControl" IsOpen="{x:Binding IsCartPopopOpen}" />
 
     </Grid>
 </ContentPage>

@@ -2,7 +2,7 @@
 
 class PageService : IPageService {
 
-    public async Task DisplayAlertAsync(string title, string message, string cancel) => await Shell.Current.DisplayAlert(title, message, cancel);
+    public async Task DisplayAlertAsync(string title, string message, string cancel) => await Shell.Current.DisplayAlertAsync(title, message, cancel);
 
     public async Task DisplayToastAsync(string message, ToastDuration toastDuration = ToastDuration.Short, double fontSize = 14) {
         var cancellationTokenSource = new CancellationTokenSource();

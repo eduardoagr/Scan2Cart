@@ -1,12 +1,24 @@
 ﻿namespace Scan2Cart.Services;
 
-public class DataProvider(FirebaseClient client) : IDataProvider {
+public class DataProvider(FirebaseClient client):IDataProvider {
 
-    public async Task<Product> GetProductByIdAsync(string Id, string node = "Products") {
+    public async Task<Product?> GetProductByIdAsync(string id,string node = "Products") {
+        try {
+            var snapshot = await client.Child(node).Child(id).OnceSingleAsync<ProductDto>();
 
-        var item = await client.Child(node).Child(Id).OnceSingleAsync<Product>();
+            if(snapshot == null) return null;
 
-        return item;
+            return new Product {
+                Id = snapshot.Id,
+                Name = snapshot.Name,
+                Price = decimal.TryParse(snapshot.Price,out var parsedPrice) ? parsedPrice : 0,
+                Description = snapshot.Description,
+                ImageUrl = snapshot.ImageUrl,
+                Quantity = int.TryParse(snapshot.Quantity,out var parsedQty) ? parsedQty : 0,
+            };
+        } catch {
 
+            return null;
+        }
     }
 }

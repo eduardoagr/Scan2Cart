@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<syncfusion:SfPopup
+    x:Class="Scan2Cart.Views.PopUps.CartPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:const="clr-namespace:Scan2Cart.Constants"
+    xmlns:controls="clr-namespace:Scan2Cart.Controls"
+    xmlns:model="clr-namespace:Scan2Cart.Models"
+    xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:Scan2Cart.ViewModels"
+    x:Name="CartPop"
+    Padding="20"
+    x:DataType="vm:HomePageViewModel"
+    AnimationMode="Zoom"
+    IsFullScreen="True"
+    ShowCloseButton="True"
+    ShowHeader="False"
+    StaysOpen="True">
+
+    <syncfusion:SfPopup.ContentTemplate>
+        <DataTemplate x:DataType="vm:HomePageViewModel">
+            <Grid
+                Padding="10"
+                RowDefinitions="40, *, 40,40"
+                RowSpacing="5">
+                <Label FontSize="Large" Text="Your cart" />
+                <Label
+                    FontAttributes="Bold"
+                    FontFamily="la"
+                    FontSize="30"
+                    HorizontalTextAlignment="End"
+                    Text="{x:Static const:IconFont.WindowClose}"
+                    TextColor="Red">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{x:Binding HideCartCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <CollectionView Grid.Row="1" ItemsSource="{x:Binding Products}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.EmptyViewTemplate>
+                        <DataTemplate>
+                            <Image
+                                Aspect="Center"
+                                IsAnimationPlaying="True"
+                                Source="empty.gif" />
+                        </DataTemplate>
+                    </CollectionView.EmptyViewTemplate>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Product">
+                            <SwipeView Threshold="200">
+                                <SwipeView.LeftItems>
+                                    <SwipeItems Mode="Execute">
+                                        <SwipeItem
+                                            BackgroundColor="Red"
+                                            IconImageSource="trash.png"
+                                            Invoked="SwipeItem_Invoked"
+                                            Text="Delete" />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+
+
+                                <Border BackgroundColor="{x:AppThemeBinding Dark={x:StaticResource Black}, Light={x:StaticResource White}}">
+                                    <Grid
+                                        Padding="2"
+                                        ColumnDefinitions="60,*,70"
+                                        ColumnSpacing="5">
+                                        <Image
+                                            HeightRequest="60"
+                                            HorizontalOptions="Start"
+                                            Source="{x:Binding ImageUrl}"
+                                            WidthRequest="60" />
+                                        <VerticalStackLayout Grid.Column="1">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="10"
+                                                Text="{x:Binding Name}" />
+                                            <Label FontSize="10" Text="{x:Binding Description}" />
+                                            <Label
+                                                Margin="0,10,0,0"
+                                                FontAttributes="Bold"
+                                                Text="{x:Binding Price,
+                                                                 StringFormat='{}{0:C}'}" />
+                                        </VerticalStackLayout>
+                                        <Button
+                                            Grid.Column="2"
+                                            BackgroundColor="Transparent"
+                                            Command="{x:Binding OpenQuantityPopUpCommand,
+                                                                Source={x:RelativeSource AncestorType={x:Type vm:HomePageViewModel}},
+                                                                x:DataType={x:Type vm:HomePageViewModel}}"
+                                            CommandParameter="{Binding .}"
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            Text="{x:Binding SelectedQuantity}"
+                                            TextColor="{x:AppThemeBinding Dark={x:StaticResource White},
+                                                                          Light={x:StaticResource Black}}" />
+                                    </Grid>
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8" />
+                                    </Border.StrokeShape>
+                                </Border>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <picker:SfPicker
+                    IsOpen="{x:Binding IsSelectedQtyPopopOpened}"
+                    IsVisible="{x:Binding IsSelectedQtyPopopOpened}"
+                    Mode="Dialog"
+                    TextDisplayMode="FadeAndShrink">
+                    <picker:SfPicker.Columns>
+                        <picker:PickerColumn
+                            HeaderText="Select quantity"
+                            ItemsSource="{x:Binding Product.QuantityRange}"
+                            SelectedItem="{x:Binding Product.SelectedQuantity}" />
+                    </picker:SfPicker.Columns>
+                </picker:SfPicker>
+                <Label
+                    Grid.Row="2"
+                    FontSize="30"
+                    HorizontalTextAlignment="Start"
+                    Text="Total" />
+                <Label
+                    Grid.Row="2"
+                    FontSize="30"
+                    HorizontalTextAlignment="End"
+                    Text="{x:Binding CartTotal,
+                                     StringFormat='{}{0:C}'}" />
+                <Button
+                    Grid.Row="3"
+                    Command="{x:Binding ClearAllCommand}"
+                    FontAttributes="Bold"
+                    Text="Clear all items" />
+            </Grid>
+        </DataTemplate>
+    </syncfusion:SfPopup.ContentTemplate>
+
+    <syncfusion:SfPopup.PopupStyle>
+        <syncfusion:PopupStyle
+            CornerRadius="0"
+            HasShadow="True"
+            HeaderBackground="{x:AppThemeBinding Dark='#C8000000',
+                                                 Light='#00000'}"
+            MessageBackground="{x:AppThemeBinding Dark='#C8000000',
+                                                  Light='#C6626161'}" />
+    </syncfusion:SfPopup.PopupStyle>
+</syncfusion:SfPopup>
